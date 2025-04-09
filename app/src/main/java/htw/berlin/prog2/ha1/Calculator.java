@@ -31,7 +31,7 @@ public class Calculator {
     public void pressDigitKey(int digit) {
         if(digit > 9 || digit < 0) throw new IllegalArgumentException();
 
-        if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
+        if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = ""; //die OR Verknüpfung erfüllt keinen Zweck, wieso sollte der Screen geleert werden, wenn der latestValue identisch zum digit ist?
 
         screen = screen + digit;
     }
@@ -46,7 +46,7 @@ public class Calculator {
      */
     public void pressClearKey() {
         screen = "0";
-        latestOperation = "";
+        latestOperation = "";   //Die CE Eingabe wird nicht beachtet. Es werden in jedem Fall alle bisher getätigten Eingaben gelöscht.
         latestValue = 0.0;
     }
 
@@ -77,7 +77,7 @@ public class Calculator {
         var result = switch(operation) {
             case "√" -> Math.sqrt(Double.parseDouble(screen));
             case "%" -> Double.parseDouble(screen) / 100;
-            case "1/x" -> 1 / Double.parseDouble(screen);
+            case "1/x" -> 1 / Double.parseDouble(screen); //1 / 0 ergibt infinity, wird hier nicht behandelt
             default -> throw new IllegalArgumentException();
         };
         screen = Double.toString(result);
@@ -105,7 +105,7 @@ public class Calculator {
      * entfernt und der Inhalt fortan als positiv interpretiert.
      */
     public void pressNegativeKey() {
-        screen = screen.startsWith("-") ? screen.substring(1) : "-" + screen;
+        screen = screen.startsWith("-") ? screen.substring(1) : "-" + screen;  //so in Ordnung
     }
 
     /**
@@ -122,12 +122,12 @@ public class Calculator {
             case "+" -> latestValue + Double.parseDouble(screen);
             case "-" -> latestValue - Double.parseDouble(screen);
             case "x" -> latestValue * Double.parseDouble(screen);
-            case "/" -> latestValue / Double.parseDouble(screen);
+            case "/" -> latestValue / Double.parseDouble(screen);  //Analog zu oben; latestValue / 0 führt zu einem Fehler
             default -> throw new IllegalArgumentException();
         };
         screen = Double.toString(result);
-        if(screen.equals("Infinity")) screen = "Error";
+        if(screen.equals("Infinity")) screen = "Error";             //In keinem Ergebnis kann "Infinity" im String stehen
         if(screen.endsWith(".0")) screen = screen.substring(0,screen.length()-2);
-        if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
+        if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);  //Die Gesamtlänge der Zahl wird hier auf 10 Stellen Begrenzt. Soll eigentlich mit "e" und der Potenz Arbeiten.
     }
 }

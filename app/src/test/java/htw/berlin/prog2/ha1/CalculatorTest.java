@@ -88,6 +88,20 @@ class CalculatorTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    @DisplayName("Ersetzt auf dem Display die 0, wenn eine Zahl zwischen 1 und 9 nachfolgend gedrückt wird")
+    void testPressDigitKey(){
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(0);
+        calc.pressDigitKey(5);
+
+        String expected = "5";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
 
     //TODO hier weitere Tests erstellen
 }
