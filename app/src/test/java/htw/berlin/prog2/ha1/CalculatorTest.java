@@ -120,7 +120,7 @@ class CalculatorTest {
 
     @Test
     @DisplayName("1/X wirft bei screen = 0 einen Error")
-    void testPressClearKey(){
+    void testDivideOneByZero(){
         Calculator calc = new Calculator();
 
         calc.pressDigitKey(0);
