@@ -14,6 +14,8 @@ public class Calculator {
 
     private String latestOperation = "";
 
+    private boolean isNewInput = false;
+
     /**
      * @return den aktuellen Bildschirminhalt als String
      */
@@ -31,8 +33,10 @@ public class Calculator {
     public void pressDigitKey(int digit) {
         if(digit > 9 || digit < 0) throw new IllegalArgumentException();
 
-        if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = ""; //die OR Verknüpfung erfüllt keinen Zweck, wieso sollte der Screen geleert werden, wenn der latestValue identisch zum digit ist?
-
+        if(screen.equals("0") || screen.equals("Error") || isNewInput) {
+            screen = "";
+            isNewInput = false;
+        }
         screen = screen + digit;
     }
 
@@ -62,6 +66,7 @@ public class Calculator {
     public void pressBinaryOperationKey(String operation)  {
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
+        isNewInput = true;
     }
 
     /**
